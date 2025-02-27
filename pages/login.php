@@ -13,20 +13,31 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a237e, #4a148c);
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+        }
+
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
         }
 
         .login-container {
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 2.5rem;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0,0,0,0.2);
             width: 100%;
             max-width: 400px;
+            z-index: 1;
         }
 
         .login-header {
@@ -35,23 +46,12 @@
         }
 
         .login-header h1 {
-            color: #1a237e;
+            color:rgb(40, 40, 44);
             margin-bottom: 0.5rem;
         }
 
         .login-header p {
             color: #666;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #333;
-            font-weight: 600;
         }
 
         .form-group input {
@@ -65,7 +65,7 @@
 
         .form-group input:focus {
             outline: none;
-            border-color: #1a237e;
+            border-color:rgb(40, 41, 44);
             box-shadow: 0 0 5px rgba(26,35,126,0.2);
         }
 
@@ -92,7 +92,7 @@
         .login-btn {
             width: 100%;
             padding: 1rem;
-            background: linear-gradient(135deg, #1a237e, #4a148c);
+            background: linear-gradient(135deg,rgb(31, 31, 34),rgb(26, 26, 26));
             color: white;
             border: none;
             border-radius: 5px;

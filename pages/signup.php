@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a237e, #4a148c);
+            background: linear-gradient(135deg,rgb(31, 31, 34),rgb(26, 26, 26));
             height: 100vh;
             display: flex;
             align-items: center;
@@ -35,7 +35,7 @@
         }
 
         .signup-header h1 {
-            color: #1a237e;
+            color:rgb(32, 33, 38);
             margin-bottom: 0.5rem;
         }
 
@@ -60,7 +60,7 @@
 
         .form-group input:focus {
             outline: none;
-            border-color: #1a237e;
+            border-color:rgb(44, 44, 46);
             box-shadow: 0 0 5px rgba(26,35,126,0.2);
         }
 
@@ -79,7 +79,7 @@
         .signup-btn {
             width: 100%;
             padding: 1rem;
-            background: linear-gradient(135deg, #1a237e, #4a148c);
+            background: linear-gradient(135deg,rgb(31, 31, 34),rgb(26, 26, 26));
             color: white;
             border: none;
             border-radius: 5px;
@@ -113,6 +113,7 @@
     // Database connection
     $servername = "localhost";
     $username = "root";
+    $email = "";
     $password = "";
     $dbname = "gamers_profile";
 
