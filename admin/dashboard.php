@@ -41,6 +41,8 @@
             cursor: pointer;
             border-bottom: 1px solid #444;
             transition: background-color 0.3s, padding-left 0.3s;
+            color: #fff; 
+            font-size: 18px; /* Make text a little bit larger */
         }
 
         .sidebar li:hover {
@@ -144,10 +146,10 @@
 
 <div class="sidebar">
     <ul>
-        <li data-section="gameList"><a href="dashboard.php">Game List</a></li>
-        <li data-section="playerlist"><a href="players_list.php">Players List</a></li>
-        <li data-section="addGame"><a href="add_game.php">Add Game</a></li>
-        <li data-section="players"><a href="add_player.php">Add Players</a></li>
+        <li data-section="gameList"><a href="dashboard.php" style="color: white; text-decoration: none;">Game List</a></li>
+        <li data-section="playerlist"><a href="players_list.php" style="color: white; text-decoration: none;">Players List</a></li>
+        <li data-section="addGame"><a href="add_game.php" style="color: white; text-decoration: none;">Add Game</a></li>
+        <li data-section="players"><a href="add_player.php" style="color: white; text-decoration: none;">Add Players</a></li>
     </ul>
 </div>
 

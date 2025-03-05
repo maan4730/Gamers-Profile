@@ -1,104 +1,91 @@
 <?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "gamers_profile";
+// Include database connection
+include 'db.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Check if a specific game title is provided in the URL
+if (isset($_GET['title'])) {
+    $game_title = $conn->real_escape_string($_GET['title']);
+    $sql = "SELECT players.player_id, players.profile_image, players.uid, players.rank, players.type, players.time, games.title 
+        FROM players 
+        JOIN games ON players.game_id = games.id 
+        WHERE games.title = '$game_title'";
+} else {
+    // Fetch all players and their corresponding game titles from the database
+    $sql = "SELECT players.player_id, players.profile_image, players.uid, players.rank, players.type, players.time, games.title 
+        FROM players 
+        JOIN games ON players.game_id = games.id";
 }
 
-// Get the game title from the URL
-$game_title = isset($_GET['title']) ? $_GET['title'] : '';
+$result = $conn->query($sql);
 
-if ($game_title) {
-    // SQL query to fetch player information by joining players and games tables
-    $sql = "SELECT players.profile_image, players.uid, players.rank, players.type, players.time, games.title 
-            FROM players 
-            JOIN games ON players.game_id = games.id 
-            WHERE games.title = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $game_title);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        echo "<h1>Players for Game: " . htmlspecialchars($game_title) . "</h1>";
-        echo "<div class='players-container'>";
-        while ($row = $result->fetch_assoc()) {
-            echo "<div class='player-box'>";
-            echo "<img src='../assets/" . htmlspecialchars($row['profile_image']) . "' alt='Profile Image'>";
-            echo "<div class='player-details'>";
-            echo "<p>UID: " . htmlspecialchars($row['uid']) . "</p>";
-            echo "<p>Rank: " . htmlspecialchars($row['rank']) . "</p>";
-            echo "<p>Type: " . htmlspecialchars($row['type']) . "</p>";
-            echo "<p>Time: " . htmlspecialchars($row['time']) . "</p>";
-            echo "</div>";
-            echo "</div>";
-        }
-        echo "</div>";
-    } else {
-        echo "<p>No players found for this game.</p>";
+if ($result && $result->num_rows > 0) {
+    while ($player = $result->fetch_assoc()) {
+        echo '<div class="player">';
+        echo '<div class="box">';
+        echo '<a href="games.php?title=' . urlencode($player['title']) . '">';
+        echo '<img src="../assets/' . htmlspecialchars($player['profile_image']) . '" alt="' . htmlspecialchars($player['uid']) . '">';
+        echo '</div>';
+        echo '<div class="player-info">';
+        echo '<p>UID: ' . htmlspecialchars($player['uid']) . '</p>';
+        echo '<p>Rank: ' . htmlspecialchars($player['rank']) . '</p>';
+        echo '<p>Type: ' . htmlspecialchars($player['type']) . '</p>';
+        echo '<p>Time: ' . htmlspecialchars($player['time']) . '</p>';
+        echo '<p>Game: ' . htmlspecialchars($player['title']) . '</p>';
+        echo '</div>';
+        echo '</a>';
+        echo '</div>';
     }
 } else {
-    echo "<p>Invalid game title.</p>";
+    echo "No players found.";
 }
-
-$conn->close();
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Players</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        .players-container {
-            display: flex;
-            flex-direction: row;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .player-box {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 40vw;
-            height: 40vh;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .player-box img {
-            width: 210px;
-            height: 250px;
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .player {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        width: 600px;
+        height: 200px;
+        margin: 10px;
+        text-align: left;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
         
-        }
-        .player-details {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-evenly;
-            gap: 20px;
-            font-size: 24px;
-        }
-    </style>
-</head>
-<body>
-</body>
-</html>
+    }
+
+    .player:hover {
+        transform: scale(1.05);
+    }
+
+    .player img {
+        width: 450px;
+        border-radius: 5px;
+        margin-right: 20px;
+    }
+
+    .player-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+
+    .player p {
+        margin: 5px 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+</style>
